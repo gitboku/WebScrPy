@@ -14,11 +14,12 @@ if __name__ == '__main__':
     #BeautifulSoup is a library processes HTML and XML files.
     #Constractor of BeautifulSoup is a file object of HTML file or charactors.
     #"urlopen()" is a method of urlli.request.
-    html = urlopen(URL).read().decode('cp932')
+    html = urlopen(URL).read().decode('UTF8', 'ignore')
     soup = BeautifulSoup(html, "html.parser")
     itemRowLists = soup.find_all("div", attrs={"class": "zg_itemRow"})#type(itemRowLists) -> bs4.element.ResultSet
      
-    fileName = datetime.now().strftime("%Y%m%d%H")+".txt"
+    date = datetime.now().strftime("%Y%m%d%H")
+    fileName = date+".txt"
 #     fileName = "test.txt"
     f = open(fileName, "w")#reading:"r" writing:"w" exclusive:"x" adding:"a"
          
@@ -40,7 +41,7 @@ if __name__ == '__main__':
         platform = itemRow.find("div", attrs={"class": "zg_bindingPlatform"}).text.strip()
         price   = itemRow.find("p", attrs={"class": "priceBlock"}).text.replace("￥", "").replace("価格：", "").replace(",", "").strip()
         
-        outputText = rank + "," + title + "," + byline + "," + reviewP + "," + reviewN + "," + platform + "," + price
+        outputText = date + "," + rank + "," + title + "," + byline + "," + reviewP + "," + reviewN + "," + platform + "," + price
         
         print(outputText)
         f.write(outputText + "\n")
